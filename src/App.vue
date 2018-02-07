@@ -23,6 +23,7 @@ export default {
 #app {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
+  letter-spacing: -0.50px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
