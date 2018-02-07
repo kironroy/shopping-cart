@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import shop from '@/api/shop'
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: { // data
@@ -29,6 +29,12 @@ export default new Vuex.Store({
 
       cartTotal (state, getters) {
         return getters.cartProducts.reduce((total, product) => total + product.price * product.quantity, 0 )
+      },
+
+      productIsInStock () {
+        return (product) => {
+          return product.inventory > 0
+        }
       }
   },
 
@@ -44,16 +50,16 @@ export default new Vuex.Store({
       })
     },
 
-    addProductToCart(context, product) {
-      if (product.inventory > 0) {
-         const cartItem = context.state.cart.find(item => item.id === product.id);
+    addProductToCart({state, getters, commit}, product) {
+      if (getters.productIsInStock(product)) {
+         const cartItem = state.cart.find(item => item.id === product.id);
         // find cartItem
         if (!cartItem) {
-           context.commit('pushProductToCart', product.id)
+           commit('pushProductToCart', product.id)
       } else {
-           context.commit('incrementItemQuantity', cartItem)
+           commit('incrementItemQuantity', cartItem)
       }
-      context.commit('decrementProductInventory', product)
+        commit('decrementProductInventory', product)
     }
   },
 
